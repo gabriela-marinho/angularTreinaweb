@@ -1,0 +1,14 @@
+<p>Meu contador de caracteres:</p>
+
+<div  [formGroup]="formulario">
+<textarea
+  autocomplete="off"
+  autocorrect="off"
+  autocapitalize="off"
+  spellcheck="false"
+  [formControlName]="campo"
+  [maxlength]="maxlength"
+  [class]="classComponent"
+  style="font-size: 13px"
+></textarea>
+</div>
