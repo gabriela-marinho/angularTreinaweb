@@ -1,4 +1,4 @@
-<form [formGroup]="myForm" >
+<form [formGroup]="myForm" (submit)="onSubmit()">
   <div formGroupName ="informacoes">
     <label>
       <p>Nome:</p>
