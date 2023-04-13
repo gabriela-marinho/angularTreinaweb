@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
+import {ValidatorsService} from "../../services/validators.service";
 
 @Component({
   selector: 'app-formularios-reativos',
@@ -19,11 +20,12 @@ export class FormulariosReativosComponent implements OnInit {
     { nome: 'Paraná', sigla: 'PR' },
     { nome: 'Minas Gerais', sigla: 'MG' }
   ]
+
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-   // private validatorsService: ValidatorsService
-  ) { }
+    private validatorsService: ValidatorsService
+  ) {}
 
   ngOnInit() {
     /*this.myForm = new FormGroup({
@@ -34,7 +36,7 @@ export class FormulariosReativosComponent implements OnInit {
     const fb = this.formBuilder;
     this.myForm =  fb.group({
       informacoes: fb.group({
-        nome: [null, Validators.required, Validators.minLength(4)],
+        nome: [ null, [Validators.required, Validators.minLength(4), this.validatorsService.nameValidation], [this.validatorsService.userValidation.bind(this.validatorsService)]],
         idade: [''],
         email: [null, [Validators.required, Validators.email] ],
         confirmaEmail: [''],
@@ -49,9 +51,10 @@ export class FormulariosReativosComponent implements OnInit {
         bairro:[' '],
         localidade:[' '],
         uf:[' ']
-
       })
+
     })
+    console.log(this.validatorsService.userValidation.bind(this.validatorsService))
 
     this.myForm.get('informacoes.nome').valueChanges.subscribe(
         (value: any) => console.log('nome alterado: ', value))
