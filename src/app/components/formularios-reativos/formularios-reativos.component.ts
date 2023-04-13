@@ -9,7 +9,7 @@ import {ValidatorsService} from "../../services/validators.service";
   styleUrls: ['./formularios-reativos.component.css']
 })
 export class FormulariosReativosComponent implements OnInit {
-  //myFormList: FormGroup;
+  myFormList: FormGroup | any;
 
 
   myForm: FormGroup | any;
@@ -20,6 +20,7 @@ export class FormulariosReativosComponent implements OnInit {
     { nome: 'Paraná', sigla: 'PR' },
     { nome: 'Minas Gerais', sigla: 'MG' }
   ]
+  fruits: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,12 +29,15 @@ export class FormulariosReativosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    /*this.myForm = new FormGroup({
-      nome: new FormControl(null),
-      email: new FormControl(null)
-    });*/
+    // this.myForm = new FormGroup({
+    //   nome: new FormControl(null),
+    //   email: new FormControl(null)
+    // });
 
     const fb = this.formBuilder;
+    this.myFormList = fb.group({
+      fruits: fb.array([this.createFruit()])
+    })
     this.myForm =  fb.group({
       informacoes: fb.group({
         nome: [ null, [Validators.required, Validators.minLength(4), this.validatorsService.nameValidation], [this.validatorsService.userValidation.bind(this.validatorsService)]],
@@ -54,28 +58,28 @@ export class FormulariosReativosComponent implements OnInit {
       })
 
     })
-    console.log(this.validatorsService.userValidation.bind(this.validatorsService))
+
 
     this.myForm.get('informacoes.nome').valueChanges.subscribe(
         (value: any) => console.log('nome alterado: ', value))
   }
 
-  // addFruit(){
-  //   const fruits = this.myFormList.get('fruits') as FormArray;
-  //   fruits.push(this.createFruit());
-  // }
+  addFruit(){
+    const fruits = this.myFormList.get('fruits') as FormArray;
+    fruits.push(this.createFruit());
+  }
 
-  // removeFruit(index){
-  //   const fruits = this.myFormList.get('fruits') as FormArray;
-  //   fruits.removeAt(index);
-  // }
+  removeFruit(index){
+    const fruits = this.myFormList.get('fruits') as FormArray;
+    fruits.removeAt(index);
+  }
 
-  // createFruit(){
-  //   return this.formBuilder.group({
-  //     name: [null, [Validators.required, Validators.minLength(4)]],
-  //     price: [null, [Validators.required]]
-  //   })
-  // }
+  createFruit(){
+    return this.formBuilder.group({
+      name: [null, [Validators.required, Validators.minLength(4)]],
+      price: [null, [Validators.required]]
+    })
+  }
 
   onSubmit(){
     console.log(this.myForm);
