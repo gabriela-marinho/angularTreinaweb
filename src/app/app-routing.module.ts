@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CoursesListComponent } from './courses-list/courses-list.component';
+import {BloqueadorGuard} from "./guards/bloqueador.guard";
+
 
 const routes: Routes = [
   {
-    path: 'cursos/:nome',
-    component: CoursesListComponent
+    path: 'cursos',
+    loadChildren: () => import('src/app/courses/courses.module').then(m => m.CoursesModule),
+    canActivate: [ BloqueadorGuard],
+    canLoad: [BloqueadorGuard]
   }
 ];
 
